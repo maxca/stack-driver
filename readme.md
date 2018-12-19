@@ -67,3 +67,20 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Docker 
+`` 
+docker composer up -d
+``
+## Bundle
+
+- Laravel 5.7
+- Graylog server
+- Filebeat 
+- Google Stack driver logging on laravel 
+- Mongo DB
+- Elastic Search
+
+## Contributor
+
+[samarchsngn@gmail.com](mailto:samarkchsngn@gmail.com).

@@ -1,0 +1,14 @@
+filebeat.prospectors:
+
+  - type: log
+    paths:
+      - /var/www/html/storage/logs/laravel*
+    multiline.pattern: '^\['
+    multiline.negate: true
+    multiline.match: after
+    document_type: laravel
+    tags: ["graylog-server"]
+
+
+output.logstash:
+  hosts: ['graylog:5044']

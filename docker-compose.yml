@@ -1,0 +1,56 @@
+version: '2.3'
+
+services:
+  webapp:
+    image: maxca789/apachephp72composer
+    container_name: laravel-stackdiver
+    mem_limit: 1024MB
+    ports:
+      - "8020:80"
+    volumes:
+      - .:/var/www/html/
+    networks:
+      - default
+  filebeat:
+    image: maxca789/filebeat-local
+    container_name: laravel-filebeat
+    volumes:
+      - ./storage/logs:/var/www/html/storage/logs/
+#      - ./docker/filebeat.yml:/filebeat.yml
+    depends_on:
+      - webapp
+      - graylog
+    networks:
+      - default
+  mongo:
+    image: "mongo:3"
+    container_name: laravel-mongo
+    volumes:
+      - ./data/mongo:/data/db
+  elasticsearch:
+    image: "elasticsearch:2"
+    container_name: laravel-elastic-search
+    command: "elasticsearch -Des.cluster.name='graylog'"
+    volumes:
+      - ./data/elasticsearch:/usr/share/elasticsearch/data
+  graylog:
+    image: maxca789/graylogserver
+    container_name: laravel-graylog-server
+    volumes:
+      - ./data/journal:/usr/share/graylog/data/journal
+      - ./config:/usr/share/graylog/data/config
+    environment:
+      GRAYLOG_PASSWORD_SECRET: somepasswordpepper
+      GRAYLOG_ROOT_PASSWORD_SHA2: 8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918
+      GRAYLOG_WEB_ENDPOINT_URI: http://127.0.0.1:9500/api
+    links:
+      - mongo:mongo
+      - elasticsearch:elasticsearch
+    ports:
+      - "9500:9000"
+      - "5044:5044"
+      - "5045:5045"
+
+networks:
+  default:
+    driver: bridge

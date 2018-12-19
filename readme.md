@@ -83,4 +83,4 @@ docker composer up -d
 
 ## Contributor
 
-[samarchsngn@gmail.com](mailto:samarkchsngn@gmail.com).
+[samarkchsngn@gmail.com](mailto:samarkchsngn@gmail.com).
